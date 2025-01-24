@@ -18,7 +18,11 @@ function App() {
       console.log(result)
       return await result.json()
     }
-    getThreadsData().then((data) => setThreads(data))
+    try{    getThreadsData().then((data) => setThreads(data))
+    }catch(e){
+      console.log(e)
+      return setThreads([{ id: "error", title: String(e) }])
+    }
   }, [])
 
   return (
