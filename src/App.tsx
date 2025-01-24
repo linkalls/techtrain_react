@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
-import "./App.css";
+import { useEffect, useState } from "react"
+import "./App.css"
+import NewButton from "./components/new_button"
 
 type Thread = {
-  id: string;
-  title: string;
-};
+  id: string
+  title: string
+}
 
 function App() {
-  const [threads, setThreads] = useState<Thread[]>([]);
+  const [threads, setThreads] = useState<Thread[]>([])
   useEffect(() => {
     const getThreadsData = async (): Promise<Thread[]> => {
       const result = await fetch(
         "https://railway.bulletinboard.techtrain.dev/threads?offset=10",
         { method: "GET" }
-      );
-      console.log(result);
-      return await result.json();
-    };
-    getThreadsData().then((data) => setThreads(data));
-  }, []);
+      )
+      console.log(result)
+      return await result.json()
+    }
+    getThreadsData().then((data) => setThreads(data))
+  }, [])
 
   return (
     <>
@@ -28,10 +29,11 @@ function App() {
             <p>{thread.id}</p>
             <p>{thread.title}</p>
           </div>
-        );
+        )
       })}
+      <NewButton></NewButton>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
