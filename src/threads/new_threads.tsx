@@ -1,25 +1,21 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import type { NavigateFunction } from "react-router"
 import { useNavigate } from "react-router"
+import { client } from "../client/client"
+
+interface PostResponse {
+  id: string
+  title: string
+}
 
 const postThreadsData = async (
   title: string,
   navigate: NavigateFunction
 ): Promise<undefined> => {
   try {
-    const result = await fetch(
-      "https://railway.bulletinboard.techtrain.dev/threads",
-      {
-        method: "POST",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title }),
-      }
-    )
+    const result = await client.post<PostResponse>("/threads", { title })
     console.log(result)
-    navigate("/", { state: { message: "threadを新しく作りました！" } })
+   navigate("/", { state: { message: "threadを新しく作りました！" } })
   } catch (e) {
     console.log(e)
   }
