@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast"
 import { Link, useLocation, useNavigate } from "react-router-dom" //* 大事
 import "./App.css"
 import { client } from "./client/client"
+import Header from "./components/header"
 import NewButton from "./components/new_button"
 
 type Thread = {
@@ -41,26 +42,36 @@ function App() {
   }, [location.state, navigate])
 
   return (
-    <div className="flex flex-col min-h-screen justify-center items-center ">
-      {threads.map((thread) => {
-        return (
-          <div key={thread.id} className="flex items-center justify-center">
-            <Link to={`/threads/${thread.id}`} className=" text-amber-400 pr-2">
-              {thread.id}
-            </Link>
-            <p>{thread.title}</p>
-          </div>
-        )
-      })}
-      <NewButton></NewButton>
-      <button
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <div className="flex flex-col flex-1 justify-center items-center">
+        {threads.map((thread) => {
+          return (
+            <div key={thread.id} className="flex items-center justify-center">
+              <Link
+                to={`/threads/${thread.id}`}
+                className=" text-amber-400 pr-2"
+              >
+                {thread.id}
+              </Link>
+              <p>{thread.title}</p>
+            </div>
+          )
+        })}
+      </div>
+      <div className="fixed bottom-8 right-8">
+        {/* fixedで固定 */}
+        <NewButton></NewButton>
+      </div>
+
+      {/* <button
         onClick={() => {
           toast("wow")
           console.log("click")
         }}
       >
         feffwfwfw
-      </button>
+      </button> */}
     </div>
   )
 }

@@ -2,6 +2,8 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import type { NavigateFunction } from "react-router"
 import { useNavigate } from "react-router"
 import { client } from "../client/client"
+import Header from "../components/header"
+
 
 interface PostResponse {
   id: string
@@ -41,9 +43,11 @@ export default function NewThread() {
   // console.log(watch("titleRequired")) // watch input value by passing the name of it
 
   return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center justify-center min-h-screen"
+      className="flex flex-1 flex-col items-center justify-center min-h-screen"
       // min-h-screen便利
     >
       <label
@@ -66,5 +70,6 @@ export default function NewThread() {
         className="mt-4 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
       />
     </form>
+    </div>
   )
 }
