@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     const getThreadsData = async (): Promise<Thread[]> => {
       const result = await fetch(
-        "https://railway.bulletinboard.techtrain.dev/threads?offset=10",
+        "https://railway.bulletinboard.techtrain.dev/threads?offset=0",
         { method: "GET" }
       )
       console.log(result)

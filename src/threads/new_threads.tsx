@@ -14,13 +14,13 @@ const postThreadsData = async (
         headers: {
           accept: "application/json",
           "Content-Type": "application/json",
-          body: JSON.stringify({ title }),
         },
+        body: JSON.stringify({ title }),
       }
     )
     console.log(result)
-    return true
     navigate("/")
+    return true
   } catch (e) {
     console.log(e)
     return false
@@ -49,7 +49,8 @@ export default function NewThread() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center justify-center "
+      className="flex flex-col items-center justify-center min-h-screen"
+      // min-h-screen便利
     >
       <label
         htmlFor="message"
