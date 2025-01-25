@@ -5,7 +5,7 @@ import { useNavigate } from "react-router"
 const postThreadsData = async (
   title: string,
   navigate: NavigateFunction
-): Promise<boolean> => {
+): Promise<undefined> => {
   try {
     const result = await fetch(
       "https://railway.bulletinboard.techtrain.dev/threads",
@@ -19,11 +19,9 @@ const postThreadsData = async (
       }
     )
     console.log(result)
-    navigate("/")
-    return true
+    navigate("/", { state: { message: "threadを新しく作りました！" } })
   } catch (e) {
     console.log(e)
-    return false
   }
 }
 
