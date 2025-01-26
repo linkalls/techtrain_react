@@ -36,6 +36,7 @@ export default function NewThread() {
     // watch,
     formState: { errors },
   } = useForm<Inputs>()
+  
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     postThreadsData(data.titleRequired, navigate)
   }

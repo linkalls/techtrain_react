@@ -26,7 +26,9 @@ function App() {
       : undefined //* あったらmessageを取り出す
 
     try {
-      client.get<Thread[]>("/threads?offset=0").then((data) => setThreads(data))
+      client
+        .get<Thread[]>("/threads?offset=0")
+        .then((result) => setThreads(result.data ? result.data : []))
       if (message) {
         console.log(message)
 
