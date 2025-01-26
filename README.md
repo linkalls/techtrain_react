@@ -18,7 +18,7 @@ export default tseslint.config({
   languageOptions: {
     // other options...
     parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
       tsconfigRootDir: import.meta.dirname,
     },
   },
@@ -31,11 +31,11 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from "eslint-plugin-react"
 
 export default tseslint.config({
   // Set the react version
-  settings: { react: { version: '18.3' } },
+  settings: { react: { version: "18.3" } },
   plugins: {
     // Add the react plugin
     react,
@@ -44,24 +44,22 @@ export default tseslint.config({
     // other rules...
     // Enable its recommended rules
     ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
+    ...react.configs["jsx-runtime"].rules,
   },
 })
 ```
-
-
 
 `return` 内に `return` がある理由は、React コンポーネントの JSX 内で配列をマッピングしているためです。具体的には、
 
 threads.map
 
- メソッドを使用して各スレッドをレンダリングしています。このメソッドは、配列の各要素に対して関数を実行し、その結果を新しい配列として返します。
+メソッドを使用して各スレッドをレンダリングしています。このメソッドは、配列の各要素に対して関数を実行し、その結果を新しい配列として返します。
 
 以下のコードは、
 
 threads
 
- 配列の各要素（スレッド）に対して JSX 要素を生成し、それを返しています。
+配列の各要素（スレッド）に対して JSX 要素を生成し、それを返しています。
 
 ```tsx
 return (
@@ -72,22 +70,29 @@ return (
           <p>{thread.id}</p>
           <p>{thread.title}</p>
         </div>
-      );
+      )
     })}
   </>
-);
+)
 ```
 
 このようにすることで、
 
 threads
 
- 配列の各要素が 
+配列の各要素が
 
 div
 
- 要素としてレンダリングされます。
+要素としてレンダリングされます。
 
 map
 
- メソッド内の `return` は、各スレッドに対して生成された JSX 要素を返すために必要です。
+メソッド内の `return` は、各スレッドに対して生成された JSX 要素を返すために必要です。
+
+[map link](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+
+## 聞きたいこと
+
+useEffect で toast してるけど 2 回レンダリングされるからもっといい方法がないかどうか
+どのくらいの細度でコンポーネントを分割するか
