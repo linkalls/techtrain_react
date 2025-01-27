@@ -18,8 +18,8 @@ const fetchDetails = async (
   thread_id: string
 ): Promise<PostData | undefined> => {
   try {
-    const response = await client.get<PostData>(`/threads/${thread_id}/posts`)
-    return response.data as PostData
+    const { data } = await client.get<PostData>(`/threads/${thread_id}/posts`)
+    return data
   } catch (e) {
     console.log(e)
     return undefined
@@ -37,12 +37,14 @@ export default function Details() {
   } = useForm<userPost>()
 
   const onSubmit: SubmitHandler<userPost> = async (data) => {
-    console.log(data)
     try {
       await client.post(`/threads/${thread_id}/posts`, {
         post: data.postRequired,
       })
-      const result = await fetchDetails(thread_id as string)
+      let result: PostData | undefined = undefined
+      if (thread_id) {
+        result = await fetchDetails(thread_id)
+      }
       if (result) {
         setPosts(result)
         toast.success("投稿しました")
@@ -80,7 +82,7 @@ export default function Details() {
             htmlFor="message"
             className="block my-2 text-sm font-medium text-gray-900 "
           >
-            threadのタイトルを入力してね!
+            文章を入力してね!
           </label>
           <textarea
             {...register("postRequired", { required: true })}
