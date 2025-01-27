@@ -33,6 +33,7 @@ export default function Details() {
     register,
     handleSubmit,
     // watch,
+    reset,
     formState: { errors },
   } = useForm<userPost>()
 
@@ -51,6 +52,9 @@ export default function Details() {
       }
     } catch (e) {
       console.log(e)
+    } finally {
+      //form reset
+      reset()
     }
   }
 
