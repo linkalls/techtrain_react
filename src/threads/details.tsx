@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
 import { useParams } from "react-router"
 import { client } from "../client/client"
 import Header from "../components/header"
@@ -13,9 +14,20 @@ interface userPost {
   postRequired: "string"
 }
 
+const fetchDetails = async (
+  thread_id: string
+): Promise<PostData | undefined> => {
+  try {
+    const response = await client.get<PostData>(`/threads/${thread_id}/posts`)
+    return response.data as PostData
+  } catch (e) {
+    console.log(e)
+    return undefined
+  }
+}
+
 export default function Details() {
   const { thread_id } = useParams()
-  const [posted, setPosted] = useState(false)
 
   const {
     register,
@@ -24,36 +36,30 @@ export default function Details() {
     formState: { errors },
   } = useForm<userPost>()
 
-  const onSubmit: SubmitHandler<userPost> = (data) => {
+  const onSubmit: SubmitHandler<userPost> = async (data) => {
     console.log(data)
-    client
-      .post(`/threads/${thread_id}/posts`, { post: data.postRequired })
-      .then(() => {
-        console.log("success")
-        setPosted(true)
+    try {
+      await client.post(`/threads/${thread_id}/posts`, {
+        post: data.postRequired,
       })
-      .catch((e) => {
-        console.log(e)
-      })
+      const result = await fetchDetails(thread_id as string)
+      if (result) {
+        setPosts(result)
+        toast.success("投稿しました")
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const [posts, setPosts] = useState<PostData>({ thread_id: "", posts: [] }) //*名前変えないと
   useEffect(() => {
-    console.log(thread_id)
-    client
-      .get<PostData>(`/threads/${thread_id}/posts`)
-      .then((result) =>
-        setPosts(
-          result.data?.posts.length
-            ? { thread_id: result.data.thread_id, posts: result.data.posts }
-            : { thread_id: result.data?.thread_id ?? "", posts: [] }
-        )
-      )
-      .catch((e) => {
-        console.log(e)
+    if (thread_id) {
+      fetchDetails(thread_id).then((data) => {
+        if (data) setPosts(data)
       })
-    setPosted(false)
-  }, [thread_id, posted])
+    }
+  }, [thread_id])
 
   return (
     <div className="flex flex-col min-h-screen ">

@@ -32,7 +32,7 @@ function App() {
       if (message) {
         console.log(message)
 
-        // // 状態をリセットするために navigate を使用
+        // 状態をリセットするために navigate を使用
         navigate("/", { replace: true, state: {} })
         // strictModeだから2回目のrenderingが走る
         toast.success(message)
